@@ -78,6 +78,7 @@ footer {
   width: 100%;
   height: 49px;
   background: rgb(162, 162, 162);
+  z-index: 100;
   ul {
     display: flex;
     li {

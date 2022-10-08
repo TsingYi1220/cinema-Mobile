@@ -1,5 +1,6 @@
 <template>
   <div v-if="filmInfo">
+    <detail-header v-scroll="20">{{filmInfo.name}}</detail-header>
     <!-- <img :src="filmInfo.poster" /> -->
     <div :style="{
         backgroundImage:'url('+filmInfo.poster+')'
@@ -25,6 +26,35 @@
         </div>
       </div>
     </div>
+
+    <!-- 演员表 -->
+    <div>
+      <div>演职人员</div>
+      <detail-swiper :perview="3.5" name="actors">
+        <detail-swiper-item v-for="data,index in filmInfo.actors" :key="index">
+          <div
+            class="avatar"
+            :style="{
+        backgroundImage:'url('+data.avatarAddress+')'
+      }"
+          ></div>
+          <div style="text-align:center;font-size:12px">{{data.name}}</div>
+          <div style="text-align:center;font-size:13px">{{data.role}}</div>
+        </detail-swiper-item>
+      </detail-swiper>
+    </div>
+
+    <!-- 剧照 -->
+    <div>
+      <div>剧照</div>
+      <detail-swiper class="avatarswiper" :perview="1.5" name="photos">
+        <detail-swiper-item v-for="data,index in filmInfo.photos" :key="index">
+          <div class="avatar" :style="{
+        backgroundImage:'url('+data+')'
+      }"></div>
+        </detail-swiper-item>
+      </detail-swiper>
+    </div>
   </div>
 </template>
 
@@ -32,9 +62,36 @@
 import http from '@/util/http'
 import Vue from 'vue'
 import moment from 'moment'
+import detailSwiper from '@/components/detail/DetailSwiper.vue'
+import detailSwiperItem from '@/components/detail/DetailSwiperItem.vue'
+import detailHeader from '@/components/detail/DetailHeader.vue'
 
 Vue.filter('dateFilter', (date) => {
   return moment(date * 1000).format('YYYY-MM-DD')
+})
+
+Vue.directive('scroll', {
+  inserted(el, binding) {
+    // console.log(el)
+    el.style.display = 'none'
+    window.onscroll = () => {
+      // console.log('scroll')
+      if (
+        (document.documentElement.scrollTop || document.body.scrollTop) >
+        binding.value
+      ) {
+        // console.log('显示')
+        el.style.display = 'block'
+      } else {
+        // console.log('yc')
+        el.style.display = 'none'
+      }
+    }
+  },
+  // 销毁执行的
+  unbind() {
+    window.onscroll = null
+  }
 })
 
 export default {
@@ -44,8 +101,13 @@ export default {
       isHidden: true
     }
   },
+  components: {
+    detailSwiper,
+    detailSwiperItem,
+    detailHeader
+  },
   created() {
-    console.log(this.$route.params.myid)
+    // console.log(this.$route.params.myid)
     // axios利用id法请求到详情接口，获取详细数据，布局页面
     http(
       `https://m.maizuo.com/gateway?filmId=${this.$route.params.myid}&k=5335171`,
@@ -53,7 +115,7 @@ export default {
         headers: { 'X-Host': 'mall.film-ticket.film.info' }
       }
     ).then((res) => {
-      console.log(res.data.data.film)
+      // console.log(res.data.data.film)
       this.filmInfo = res.data.data.film
     })
   }
@@ -78,5 +140,14 @@ export default {
 .hidden {
   overflow: hidden;
   height: 30px;
+}
+.avatar {
+  width: 100%;
+  height: 1.13rem;
+  background-position: center;
+  background-size: cover;
+}
+.avatarswiper {
+  overflow: hidden;
 }
 </style>

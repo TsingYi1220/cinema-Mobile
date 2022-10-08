@@ -62,7 +62,7 @@ export default {
         'X-Host': 'mall.film-ticket.film.list'
       }
     }).then((res) => {
-      console.log(res.data.data.films)
+      // console.log(res.data.data.films)
       this.datalist = res.data.data.films
     })
   }
@@ -102,7 +102,7 @@ ul {
             overflow: hidden;
             text-overflow: ellipsis;
             margin-right: 0.05rem;
-            height: 0.22rem;
+            height: 0.18rem;
             white-space: nowrap;
           }
           .item {

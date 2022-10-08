@@ -3,7 +3,6 @@
     <film-swiper :key="datalist.length">
       <film-swiper-item v-for="data in datalist" :key="data.id" class="filmswiperitem">
         <img :src="data.imgUrl" />
-        {{data.title}}
       </film-swiper-item>
     </film-swiper>
     <!-- <div>二级的申明式导航</div> -->
