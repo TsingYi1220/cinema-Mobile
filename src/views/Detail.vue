@@ -10,6 +10,19 @@
         <div class="detail-text">{{filmInfo.category}}</div>
         <div class="detail-text">{{filmInfo.premiereAt | dateFilter}}上映</div>
         <div class="detail-text">{{filmInfo.nation}} | {{filmInfo.runtime}}分钟</div>
+        <div
+          class="detail-text"
+          style="line-height:15px;"
+          :class="isHidden?'hidden':''"
+        >{{filmInfo.synopsis}}</div>
+
+        <div style="text-align:center">
+          <i
+            class="iconfont"
+            :class="isHidden?'icon-moreunfold':'icon-less'"
+            @click="isHidden=!isHidden"
+          ></i>
+        </div>
       </div>
     </div>
   </div>
@@ -27,7 +40,8 @@ Vue.filter('dateFilter', (date) => {
 export default {
   data() {
     return {
-      filmInfo: null
+      filmInfo: null,
+      isHidden: true
     }
   },
   created() {
@@ -60,5 +74,9 @@ export default {
     font-size: 13px;
     margin-top: 4px;
   }
+}
+.hidden {
+  overflow: hidden;
+  height: 30px;
 }
 </style>
