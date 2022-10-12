@@ -69,7 +69,7 @@ export default {
 
 <style scoped lang="scss">
 .dykactive {
-  color: greenyellow;
+  color: #ff5f16;
 }
 footer {
   position: fixed;
@@ -77,7 +77,7 @@ footer {
   left: 0;
   width: 100%;
   height: 49px;
-  background: rgb(162, 162, 162);
+  background: rgba(211, 211, 211, 0.5);
   z-index: 100;
   ul {
     display: flex;

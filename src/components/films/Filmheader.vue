@@ -35,7 +35,7 @@ ul {
 }
 
 .dykactive {
-  color: cyan;
+  color: #ff5f16;
   border-bottom: 2px solid red;
 }
 </style>

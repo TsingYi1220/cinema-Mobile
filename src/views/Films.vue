@@ -43,7 +43,7 @@ export default {
 
 <style lang='scss' scoped>
 .dykactive {
-  color: cyan;
+  color: #ff5f16;
 }
 .filmswiperitem {
   img {
