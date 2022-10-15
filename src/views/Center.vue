@@ -1,7 +1,7 @@
 <template>
   <div>
     center--aaa
-    <button @click="handleOrder">订单</button>
+    <van-button type="primary" @click="handleOrder">订单</van-button>
   </div>
 </template>
 

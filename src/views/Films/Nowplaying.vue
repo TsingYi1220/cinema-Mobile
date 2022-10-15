@@ -1,7 +1,14 @@
 <template>
   <div>
-    <ul>
-      <li v-for="data in datalist" :key="data.filmId" @click="handleChangePage(data.filmId)">
+    <van-list
+      v-model="loading"
+      loading-text="数据拉取中..."
+      :finished="finished"
+      finished-text="没有更多了"
+      @load="onLoad"
+      :immediate-check="false"
+    >
+      <van-cell v-for="data in datalist" :key="data.filmId" @click="handleChangePage(data.filmId)">
         <div href="#" class="nowPlayingFilm">
           <div>
             <img :src="data.poster" />
@@ -20,8 +27,8 @@
           </div>
           <div class="buy">购票</div>
         </div>
-      </li>
-    </ul>
+      </van-cell>
+    </van-list>
   </div>
 </template>
 
@@ -36,10 +43,35 @@ Vue.filter('actorsFilter', (data) => {
 export default {
   data() {
     return {
-      datalist: []
+      datalist: [],
+      current: 1,
+      total: 0,
+      loading: false,
+      finished: false
     }
   },
   methods: {
+    onLoad() {
+      if (this.datalist.length === this.total && this.total !== 0) {
+        this.finished = true
+        return
+      }
+      this.current++
+      http(
+        `/gateway?cityId=310100&pageNum=${this.current}&pageSize=10&type=1&k=7644121`,
+        {
+          headers: {
+            'X-Host': 'mall.film-ticket.film.list'
+          }
+        }
+      ).then((res) => {
+        // console.log(res.data.data.films)
+        this.datalist = [...this.datalist, ...res.data.data.films]
+        // loading设置为false
+        this.loading = false
+        this.total = res.data.data.total
+      })
+    },
     handleChangePage(id) {
       // console.log(id)
       // 编程式导航
@@ -57,11 +89,14 @@ export default {
     }
   },
   mounted() {
-    http('/gateway?cityId=110100&pageNum=1&pageSize=10&type=1&k=7644121', {
-      headers: {
-        'X-Host': 'mall.film-ticket.film.list'
+    http(
+      `/gateway?cityId=310100&pageNum=${this.current}&pageSize=10&type=1&k=7644121`,
+      {
+        headers: {
+          'X-Host': 'mall.film-ticket.film.list'
+        }
       }
-    }).then((res) => {
+    ).then((res) => {
       // console.log(res.data.data.films)
       this.datalist = res.data.data.films
     })
@@ -70,9 +105,9 @@ export default {
 </script>
 
 <style lang='scss' scoped>
-ul {
+.van-list {
   padding: 0 0 0 0.15rem;
-  li {
+  .van-cell {
     width: 3.45 rem;
     overflow: hidden;
     padding: 0.15rem 0.15rem 0.15rem 0;
@@ -103,6 +138,7 @@ ul {
             text-overflow: ellipsis;
             margin-right: 0.05rem;
             height: 0.18rem;
+            line-height: 0.18rem;
             white-space: nowrap;
           }
           .item {

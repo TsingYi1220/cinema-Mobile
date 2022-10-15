@@ -1,39 +1,73 @@
 <template>
   <div>
-    <router-link to="/cinemas/search" custom v-slot="{ navigate }">
-      <a @click="navigate">搜索</a>
-    </router-link>
-    <ul>
-      <li v-for="data in cinemasList" :key="data.cinemaId">
-        <div class="left">
-          <div class="cinema_name">{{data.name}}</div>
-          <div class="cinema_text">{{data.address}}</div>
-        </div>
+    <van-nav-bar title="影院" ref="navbar">
+      <template #left>
+        上海
+        <van-icon name="arrow-down" size="12" color="black" />
+      </template>
+      <template #right>
+        <van-icon name="search" size="24" color="black" />
+      </template>
+    </van-nav-bar>
+    <div class="box" :style="{
+      height:height
+    }">
+      <ul>
+        <li v-for="data in cinemasList" :key="data.cinemaId">
+          <div class="left">
+            <div class="cinema_name">{{data.name}}</div>
+            <div class="cinema_text">{{data.address}}</div>
+          </div>
 
-        <div class="right">
-          <div style="color:#ff5f16">￥{{data.lowPrice/100}}起</div>
-        </div>
-      </li>
-    </ul>
+          <div class="right">
+            <div style="color:#ff5f16">￥{{data.lowPrice/100}}起</div>
+          </div>
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 
 <script>
 import http from '@/util/http'
+import BetterScroll from 'better-scroll'
 
 export default {
   data() {
     return {
-      cinemasList: []
+      cinemasList: [],
+      height: '0px'
     }
   },
   mounted() {
+    // console.log(
+    //   document.documentElement.clientHeight,
+    //   document.querySelector('footer').offsetHeight,
+    //   this.$refs.navbar.$el.offsetHeight
+    // )
+    // 动态计算高度
+    this.height =
+      document.documentElement.clientHeight -
+      this.$refs.navbar.$el.offsetHeight -
+      document.querySelector('footer').offsetHeight +
+      'px'
+
     http({
       url: 'https://m.maizuo.com/gateway?cityId=310100&ticketFlag=1&k=5025061',
       headers: { 'X-Host': 'mall.film-ticket.cinema.list' }
     }).then((res) => {
-      console.log(res.data.data.cinemas)
+      // console.log(res.data.data.cinemas)
       this.cinemasList = res.data.data.cinemas
+
+      // console.log(document.getElementsByTagName('li').length)
+      this.$nextTick(() => {
+        // console.log(document.getElementsByTagName('li').length)
+        new BetterScroll('.box', {
+          scrollbar: {
+            fade: true
+          }
+        })
+      })
     })
   }
 }
@@ -42,7 +76,7 @@ export default {
 <style lang='scss' scoped>
 li {
   padding: 0.15rem;
-
+  border-bottom: 1px solid #ededed;
   display: flex;
   justify-content: space-between;
   .left {
@@ -59,5 +93,11 @@ li {
     text-overflow: ellipsis;
     white-space: nowrap;
   }
+}
+.box {
+  // height: 6rem;
+
+  overflow: hidden;
+  position: relative; //修正滚动条位置
 }
 </style>

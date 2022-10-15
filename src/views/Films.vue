@@ -2,7 +2,7 @@
   <div>
     <film-swiper :key="datalist.length">
       <film-swiper-item v-for="data in datalist" :key="data.id" class="filmswiperitem">
-        <img :src="data.imgUrl" />
+        <img :src="data.poster" />
       </film-swiper-item>
     </film-swiper>
     <!-- <div>二级的申明式导航</div> -->
@@ -16,7 +16,7 @@
 import filmSwiper from '@/components/films/FilmSwiper'
 import filmSwiperItem from '@/components/films/FilmSwiperItem'
 import filmHeader from '@/components/films/Filmheader.vue'
-import axios from 'axios'
+import http from '@/util/http'
 
 export default {
   data() {
@@ -25,13 +25,15 @@ export default {
     }
   },
   mounted() {
-    setTimeout(() => {
-      // this.datalist = ['aaa', 'bbb', 'ccc']
-      axios.get('/banner.json').then((res) => {
-        // console.log(res.data.banner)
-        this.datalist = res.data.banner
-      })
-    }, 100)
+    // this.datalist = ['aaa', 'bbb', 'ccc']
+    http('/gateway?cityId=310100&pageNum=1&pageSize=10&type=1&k=7644121', {
+      headers: {
+        'X-Host': 'mall.film-ticket.film.list'
+      }
+    }).then((res) => {
+      // console.log(res.data.data.films)
+      this.datalist = res.data.data.films
+    })
   },
   components: {
     filmSwiper,
@@ -42,10 +44,12 @@ export default {
 </script>
 
 <style lang='scss' scoped>
-.dykactive {
-  color: #ff5f16;
+.mySwiper {
+  height: 2.1rem;
 }
 .filmswiperitem {
+  display: flex;
+  align-items: center;
   img {
     width: 100%;
   }
@@ -54,5 +58,6 @@ export default {
   position: sticky;
   top: 0;
   background: white;
+  z-index: 99;
 }
 </style>

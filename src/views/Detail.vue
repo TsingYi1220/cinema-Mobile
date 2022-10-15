@@ -49,9 +49,13 @@
       <div>剧照</div>
       <detail-swiper class="avatarswiper" :perview="1.5" name="photos">
         <detail-swiper-item v-for="data,index in filmInfo.photos" :key="index">
-          <div class="avatar" :style="{
+          <div
+            class="avatar"
+            :style="{
         backgroundImage:'url('+data+')'
-      }"></div>
+      }"
+            @click="handlePreview(index)"
+          ></div>
         </detail-swiper-item>
       </detail-swiper>
     </div>
@@ -65,6 +69,7 @@ import moment from 'moment'
 import detailSwiper from '@/components/detail/DetailSwiper.vue'
 import detailSwiperItem from '@/components/detail/DetailSwiperItem.vue'
 import detailHeader from '@/components/detail/DetailHeader.vue'
+import { ImagePreview } from 'vant'
 
 Vue.filter('dateFilter', (date) => {
   return moment(date * 1000).format('YYYY-MM-DD')
@@ -105,6 +110,14 @@ export default {
     detailSwiper,
     detailSwiperItem,
     detailHeader
+  },
+  methods: {
+    handlePreview(index) {
+      ImagePreview({
+        images: this.filmInfo.photos,
+        startPosition: index
+      })
+    }
   },
   created() {
     // console.log(this.$route.params.myid)

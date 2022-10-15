@@ -1,14 +1,22 @@
 <template>
   <div>
-    <tabbar></tabbar>
     <section>
       <router-view></router-view>
     </section>
+    <tabbar></tabbar>
   </div>
 </template>
 
 <script>
+import Vue from 'vue'
+// 1. 引入你需要的组件
+import Vant from 'vant'
+// 2. 引入组件样式
+import 'vant/lib/index.css'
+
 import tabbar from './components/Tabbar.vue'
+
+Vue.use(Vant)
 
 export default {
   components: {
@@ -31,6 +39,6 @@ ul {
   list-style: none;
 }
 section {
-  padding-bottom: 0.49rem;
+  padding-bottom: 49px;
 }
 </style>
