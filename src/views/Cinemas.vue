@@ -1,6 +1,6 @@
 <template>
   <div>
-    <van-nav-bar title="影院" ref="navbar">
+    <van-nav-bar title="影院" ref="navbar" @click-left="handleLeft" @click-right="handleRight">
       <template #left>
         上海
         <van-icon name="arrow-down" size="12" color="black" />
@@ -37,6 +37,15 @@ export default {
     return {
       cinemasList: [],
       height: '0px'
+    }
+  },
+  methods: {
+    handleLeft() {
+      // console.log('left')
+      this.$router.push('/city')
+    },
+    handleRight() {
+      console.log('right')
     }
   },
   mounted() {

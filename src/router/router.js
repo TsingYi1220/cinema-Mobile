@@ -2,13 +2,14 @@ import Vue from 'vue'
 // import Vuex from 'vuex'
 import VueRouter from 'vue-router'
 
-import Cinemas from '@/views/Cinemas.vue'
-import Comingsoon from '@/views/Films/Comingsoon'
-import Detail from '@/views/Detail'
 import Films from '@/views/Films'
-import Login from '@/views/Login'
 import Nowplaying from '@/views/Films/Nowplaying'
+import Detail from '@/views/Detail'
+import Comingsoon from '@/views/Films/Comingsoon'
+import Cinemas from '@/views/Cinemas.vue'
+import City from '@/views/City'
 import Search from '@/views/Search'
+import Login from '@/views/Login'
 // import Center from '@/views/Center'
 // import Order from '@/views/Order'
 
@@ -46,6 +47,10 @@ const routes = [
   {
     path: '/cinemas',
     component: Cinemas
+  },
+  {
+    path: '/city',
+    component: City
   },
   {
     path: '/cinemas/search',
