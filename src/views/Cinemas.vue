@@ -2,7 +2,7 @@
   <div>
     <van-nav-bar title="影院" ref="navbar" @click-left="handleLeft" @click-right="handleRight">
       <template #left>
-        上海
+        {{$store.state.cityName}}
         <van-icon name="arrow-down" size="12" color="black" />
       </template>
       <template #right>

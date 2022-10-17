@@ -4,9 +4,15 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
-  state: {},
-  getters: {},
-  mutations: {},
-  actions: {},
-  modules: {}
+  // state公共状态
+  state: {
+    cityID: '310100',
+    cityName: '上海'
+  },
+  mutations: {
+    changeCityName(state, cityName) {
+      state.cityName = cityName
+      console.log(cityName)
+    }
+  }
 })

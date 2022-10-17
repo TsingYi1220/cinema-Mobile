@@ -3,7 +3,12 @@
     <van-index-bar :index-list="indexList" @select="handleChange">
       <div v-for="data in cityList" :key="data.type">
         <van-index-anchor :index="data.type" />
-        <van-cell v-for="item in data.list" :key="item.cityId" :title="item.name" />
+        <van-cell
+          v-for="item in data.list"
+          :key="item.cityId"
+          :title="item.name"
+          @click="handleClick(item)"
+        />
       </div>
     </van-index-bar>
   </div>
@@ -30,6 +35,23 @@ export default {
     }
   },
   methods: {
+    handleClick(item) {
+      // console.log(item.name, item.cityId)
+
+      // 传统多页面方案
+      // location.href = '#/cimemas?cityname=' + item.cityId
+      // cookie ,localStroage
+      // 单页面方案
+      // 1.中间人模式
+      // 2.bus总线 $on , $emit
+      // vuex-状态管理模式
+
+      // console.log(this.$store.state.cityName, item.name)
+      // this.$store.state.cityName = item.name
+
+      this.$store.commit('changeCityName', item.name)
+      this.$router.back()
+    },
     handleChange(data) {
       // console.log('change', data)
       Toast(data)
@@ -71,7 +93,7 @@ export default {
       // console.log(res.data.data.cities)
       this.cityList = this.renderCity(res.data.data.cities)
       // 1. 327条数据 ==> A,B分组   利用转换后的数组，结合组件库进行渲染页面
-      console.log(this.cityList)
+      // console.log(this.cityList)
     })
   }
 }
