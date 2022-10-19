@@ -53,24 +53,25 @@ export default {
     ...mapActions(['getCinemaData'])
   },
   mounted() {
+    this.$nextTick(() => {
+      this.height =
+        document.documentElement.clientHeight -
+        this.$refs.navbar.$el.offsetHeight -
+        document.querySelector('footer').offsetHeight +
+        'px'
+    })
     // console.log(
     //   document.documentElement.clientHeight,
     //   document.querySelector('footer').offsetHeight,
     //   this.$refs.navbar.$el.offsetHeight
     // )
     // 动态计算高度
-    this.height =
-      document.documentElement.clientHeight -
-      this.$refs.navbar.$el.offsetHeight -
-      document.querySelector('footer').offsetHeight +
-      'px'
 
     // 分发
     if (this.cinemaList.length === 0) {
       this.getCinemaData(this.cityId).then((res) => {
-        // console.log('shuju')
         this.$nextTick(() => {
-          new BetterScroll('.box', {
+          this.scroll = new BetterScroll('.box', {
             scrollbar: {
               fade: true
             }
@@ -79,10 +80,12 @@ export default {
       })
     } else {
       this.$nextTick(() => {
-        new BetterScroll('.box', {
-          scrollbar: {
-            fade: true
-          }
+        this.$nextTick(() => {
+          this.scroll = new BetterScroll('.box', {
+            scrollbar: {
+              fade: true
+            }
+          })
         })
       })
     }

@@ -9,7 +9,7 @@
         @cancel="onCancel"
       />
     </form>
-    <div v-if="value" class="box" :style="{
+    <div v-show="value" class="box" :style="{
       height:height
     }">
       <ul>
@@ -30,8 +30,11 @@
 
 <script>
 import BetterScroll from 'better-scroll'
+import { mapActions, mapState } from 'vuex'
+import obj from '@/util/mixinObj'
 
 export default {
+  mixins: [obj],
   data() {
     return {
       height: '0px',
@@ -39,14 +42,16 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['getCinemaData']),
     onSearch() {},
     onCancel() {
       this.$router.back()
     }
   },
   computed: {
+    ...mapState(['cinemaList']),
     search() {
-      return this.$store.state.cinemaList.filter(
+      return this.cinemaList.filter(
         (item) =>
           item.name.toUpperCase().includes(this.value.toUpperCase()) ||
           item.address.toUpperCase().includes(this.value.toUpperCase())
@@ -54,26 +59,28 @@ export default {
     }
   },
   mounted() {
+    // this.$store.commit('hide')
     this.height =
       document.documentElement.clientHeight -
-      this.$refs.search.offsetHeight -
-      document.querySelector('footer').offsetHeight +
+      this.$refs.search.offsetHeight +
       'px'
 
-    if (this.$store.state.cinemaList.length === 0) {
-      this.$store.dispatch('getCinemaData', this.$store.state.cityId)
+    if (this.cinemaList.length === 0) {
+      this.getCinemaData(this.$store.state.cityId)
     }
+    this.scroll = new BetterScroll('.box', {
+      scrollbar: {
+        fade: true
+      }
+    })
   },
   updated() {
     if (this.value) {
-      this.$nextTick(() => {
-        this.scroll = new BetterScroll('.box', {
-          scrollbar: {
-            fade: true
-          }
-        })
-      })
+      this.scroll.refresh()
     }
+  },
+  destroyed() {
+    // this.$store.commit('show')
   }
 }
 </script>

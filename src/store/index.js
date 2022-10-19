@@ -1,15 +1,28 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import http from '@/util/http'
+import createPersistedState from 'vuex-persistedstate'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
+  plugins: [
+    createPersistedState({
+      reducer: (state) => {
+        return {
+          cityId: state.cityId,
+          cityName: state.cityName
+        }
+      }
+    })
+  ],
+
   // state公共状态
   state: {
     cityId: '310100',
     cityName: '上海',
-    cinemaList: []
+    cinemaList: [],
+    isTabbarShow: true
   },
   // 统一管理，被devtools记录状态的修改
   // 只能支持同步
@@ -24,6 +37,12 @@ export default new Vuex.Store({
     changeCinemaData(state, data) {
       // console.log(data)
       state.cinemaList = data
+    },
+    hide(state) {
+      state.isTabbarShow = false
+    },
+    show(state) {
+      state.isTabbarShow = true
     }
   },
   // 支持异步和同步

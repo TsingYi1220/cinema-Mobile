@@ -3,7 +3,7 @@
     <section>
       <router-view></router-view>
     </section>
-    <tabbar></tabbar>
+    <tabbar v-show="this.$store.state.isTabbarShow"></tabbar>
   </div>
 </template>
 
@@ -37,8 +37,5 @@ body {
 }
 ul {
   list-style: none;
-}
-section {
-  padding-bottom: 49px;
 }
 </style>

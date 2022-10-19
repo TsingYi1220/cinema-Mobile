@@ -106,7 +106,7 @@ export default {
 
 <style lang='scss' scoped>
 .van-list {
-  padding: 0 0 0 0.15rem;
+  padding: 0 0 49px 0.15rem;
   .van-cell {
     width: 3.45 rem;
     overflow: hidden;

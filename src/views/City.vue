@@ -1,6 +1,12 @@
 <template>
-  <div>
-    <van-index-bar :index-list="indexList" @select="handleChange">
+  <div class="city">
+    <van-index-bar
+      :index-list="indexList"
+      @select="handleChange"
+      :style="{
+        height: height
+      }"
+    >
       <div v-for="data in cityList" :key="data.type">
         <van-index-anchor :index="data.type" />
         <van-cell
@@ -16,13 +22,16 @@
 
 <script>
 import http from '@/util/http'
+import obj from '@/util/mixinObj'
 import { Toast } from 'vant'
 import { mapMutations } from 'vuex'
 
 export default {
+  mixins: [obj], // 混入
   data() {
     return {
-      cityList: []
+      cityList: [],
+      height: '0px'
     }
   },
   computed: {
@@ -88,6 +97,7 @@ export default {
     }
   },
   mounted() {
+    this.height = document.documentElement.clientHeight + 'px'
     http({
       url: '/gatewayk=5596057',
       headers: {

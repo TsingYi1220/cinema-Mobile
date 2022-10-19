@@ -1,5 +1,5 @@
 <template>
-  <div v-if="filmInfo">
+  <div v-if="filmInfo" class="box">
     <detail-header v-scroll="20">{{filmInfo.name}}</detail-header>
     <!-- <img :src="filmInfo.poster" /> -->
     <div :style="{
@@ -119,7 +119,7 @@ export default {
       })
     }
   },
-  created() {
+  mounted() {
     // console.log(this.$route.params.myid)
     // axios利用id法请求到详情接口，获取详细数据，布局页面
     http(`/gateway?filmId=${this.$route.params.myid}&k=5335171`, {
@@ -133,31 +133,34 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.poster {
-  width: 100%;
-  height: 2.1rem;
-  background-position: center;
-  background-size: cover;
-}
-.content {
-  padding: 0.15rem;
-  .detail-text {
-    color: #797d82;
-    font-size: 13px;
-    margin-top: 4px;
+.box {
+  padding: 0 0 49px 0;
+  .poster {
+    width: 100%;
+    height: 2.1rem;
+    background-position: center;
+    background-size: cover;
   }
-}
-.hidden {
-  overflow: hidden;
-  height: 30px;
-}
-.avatar {
-  width: 100%;
-  height: 1.13rem;
-  background-position: center;
-  background-size: cover;
-}
-.avatarswiper {
-  overflow: hidden;
+  .content {
+    padding: 0.15rem;
+    .detail-text {
+      color: #797d82;
+      font-size: 13px;
+      margin-top: 4px;
+    }
+  }
+  .hidden {
+    overflow: hidden;
+    height: 30px;
+  }
+  .avatar {
+    width: 100%;
+    height: 1.13rem;
+    background-position: center;
+    background-size: cover;
+  }
+  .avatarswiper {
+    overflow: hidden;
+  }
 }
 </style>
