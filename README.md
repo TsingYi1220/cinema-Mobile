@@ -4,24 +4,7 @@
 npm install/npm start
 ```
 
-### Compiles and hot-reloads for development
 
-```
-npm run serve
-```
 
-### Compiles and minifies for production
+数据来源：[卖座电影](https://m.maizuo.com/)
 
-```
-npm run build
-```
-
-### Lints and fixes files
-
-```
-npm run lint
-```
-
-### Customize configuration
-
-See [Configuration Reference](https://cli.vuejs.org/config/).
