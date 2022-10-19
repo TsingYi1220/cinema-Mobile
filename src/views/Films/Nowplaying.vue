@@ -58,7 +58,7 @@ export default {
       }
       this.current++
       http(
-        `/gateway?cityId=310100&pageNum=${this.current}&pageSize=10&type=1&k=7644121`,
+        `/gateway?cityId=${this.$store.state.cityId}&pageNum=${this.current}&pageSize=10&type=1&k=7644121`,
         {
           headers: {
             'X-Host': 'mall.film-ticket.film.list'
@@ -90,7 +90,7 @@ export default {
   },
   mounted() {
     http(
-      `/gateway?cityId=310100&pageNum=${this.current}&pageSize=10&type=1&k=7644121`,
+      `/gateway?cityId=${this.$store.state.cityId}&pageNum=${this.current}&pageSize=10&type=1&k=7644121`,
       {
         headers: {
           'X-Host': 'mall.film-ticket.film.list'

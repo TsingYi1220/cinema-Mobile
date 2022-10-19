@@ -2,7 +2,7 @@
   <div>
     <van-nav-bar title="影院" ref="navbar" @click-left="handleLeft" @click-right="handleRight">
       <template #left>
-        {{$store.state.cityName}}
+        {{cityName}}
         <van-icon name="arrow-down" size="12" color="black" />
       </template>
       <template #right>
@@ -13,7 +13,7 @@
       height:height
     }">
       <ul>
-        <li v-for="data in cinemasList" :key="data.cinemaId">
+        <li v-for="data in cinemaList" :key="data.cinemaId">
           <div class="left">
             <div class="cinema_name">{{data.name}}</div>
             <div class="cinema_text">{{data.address}}</div>
@@ -29,15 +29,17 @@
 </template>
 
 <script>
-import http from '@/util/http'
 import BetterScroll from 'better-scroll'
+import { mapState, mapActions } from 'vuex'
 
 export default {
   data() {
     return {
-      cinemasList: [],
       height: '0px'
     }
+  },
+  computed: {
+    ...mapState(['cinemaList', 'cityId', 'cityName'])
   },
   methods: {
     handleLeft() {
@@ -45,8 +47,10 @@ export default {
       this.$router.push('/city')
     },
     handleRight() {
-      console.log('right')
-    }
+      this.$router.push('/cinemas/search')
+    },
+
+    ...mapActions(['getCinemaData'])
   },
   mounted() {
     // console.log(
@@ -61,23 +65,45 @@ export default {
       document.querySelector('footer').offsetHeight +
       'px'
 
-    http({
-      url: 'https://m.maizuo.com/gateway?cityId=310100&ticketFlag=1&k=5025061',
-      headers: { 'X-Host': 'mall.film-ticket.cinema.list' }
-    }).then((res) => {
-      // console.log(res.data.data.cinemas)
-      this.cinemasList = res.data.data.cinemas
-
-      // console.log(document.getElementsByTagName('li').length)
+    // 分发
+    if (this.cinemaList.length === 0) {
+      this.getCinemaData(this.cityId).then((res) => {
+        // console.log('shuju')
+        this.$nextTick(() => {
+          new BetterScroll('.box', {
+            scrollbar: {
+              fade: true
+            }
+          })
+        })
+      })
+    } else {
       this.$nextTick(() => {
-        // console.log(document.getElementsByTagName('li').length)
         new BetterScroll('.box', {
           scrollbar: {
             fade: true
           }
         })
       })
-    })
+    }
+
+    // http({
+    //   url: `/gateway?cityId=${this.$store.state.cityId}`,
+    //   headers: { 'X-Host': 'mall.film-ticket.cinema.list' }
+    // }).then((res) => {
+    //   // console.log(res.data.data.cinemas)
+    //   this.cinemasList = res.data.data.cinemas
+
+    //   // console.log(document.getElementsByTagName('li').length)
+    //   this.$nextTick(() => {
+    //     // console.log(document.getElementsByTagName('li').length)
+    //     new BetterScroll('.box', {
+    //       scrollbar: {
+    //         fade: true
+    //       }
+    //     })
+    //   })
+    // })
   }
 }
 </script>

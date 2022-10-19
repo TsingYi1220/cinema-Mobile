@@ -122,12 +122,9 @@ export default {
   created() {
     // console.log(this.$route.params.myid)
     // axios利用id法请求到详情接口，获取详细数据，布局页面
-    http(
-      `https://m.maizuo.com/gateway?filmId=${this.$route.params.myid}&k=5335171`,
-      {
-        headers: { 'X-Host': 'mall.film-ticket.film.info' }
-      }
-    ).then((res) => {
+    http(`/gateway?filmId=${this.$route.params.myid}&k=5335171`, {
+      headers: { 'X-Host': 'mall.film-ticket.film.info' }
+    }).then((res) => {
       // console.log(res.data.data.film)
       this.filmInfo = res.data.data.film
     })

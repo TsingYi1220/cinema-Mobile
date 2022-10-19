@@ -17,6 +17,7 @@
 <script>
 import http from '@/util/http'
 import { Toast } from 'vant'
+import { mapMutations } from 'vuex'
 
 export default {
   data() {
@@ -35,6 +36,7 @@ export default {
     }
   },
   methods: {
+    ...mapMutations(['changeCityName', 'changeCityId', 'changeCinemaData']),
     handleClick(item) {
       // console.log(item.name, item.cityId)
 
@@ -49,7 +51,9 @@ export default {
       // console.log(this.$store.state.cityName, item.name)
       // this.$store.state.cityName = item.name
 
-      this.$store.commit('changeCityName', item.name)
+      this.changeCityName(item.name)
+      this.changeCityId(item.cityId)
+      this.changeCinemaData([])
       this.$router.back()
     },
     handleChange(data) {
@@ -85,7 +89,7 @@ export default {
   },
   mounted() {
     http({
-      url: 'https://m.maizuo.com/gateway?k=464058',
+      url: '/gatewayk=5596057',
       headers: {
         'X-Host': 'mall.film-ticket.city.list'
       }

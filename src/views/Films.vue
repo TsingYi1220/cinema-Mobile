@@ -1,6 +1,6 @@
 <template>
   <div>
-    <film-swiper :key="datalist.length">
+    <film-swiper :key="datalist.length" :loop="datalist.length>1?true:false">
       <film-swiper-item v-for="data in datalist" :key="data.id" class="filmswiperitem">
         <img :src="data.poster" />
       </film-swiper-item>
@@ -26,11 +26,14 @@ export default {
   },
   mounted() {
     // this.datalist = ['aaa', 'bbb', 'ccc']
-    http('/gateway?cityId=310100&pageNum=1&pageSize=10&type=1&k=7644121', {
-      headers: {
-        'X-Host': 'mall.film-ticket.film.list'
+    http(
+      `/gateway?cityId=${this.$store.state.cityId}&pageNum=1&pageSize=10&type=1&k=7644121`,
+      {
+        headers: {
+          'X-Host': 'mall.film-ticket.film.list'
+        }
       }
-    }).then((res) => {
+    ).then((res) => {
       // console.log(res.data.data.films)
       this.datalist = res.data.data.films
     })
