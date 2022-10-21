@@ -1,6 +1,6 @@
 <template>
   <div v-if="filmInfo" class="box">
-    <detail-header v-scroll="20">{{filmInfo.name}}</detail-header>
+    <detail-header v-scroll="8">{{filmInfo.name}}</detail-header>
     <!-- <img :src="filmInfo.poster" /> -->
     <div :style="{
         backgroundImage:'url('+filmInfo.poster+')'
