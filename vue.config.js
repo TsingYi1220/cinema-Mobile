@@ -1,6 +1,7 @@
 const { defineConfig } = require('@vue/cli-service')
 module.exports = defineConfig({
-  publicPath: './',
+  // publicPath: './',
+  publicPath: process.env.NODE_ENV === 'production' ? '/cinema-Mobile' : '/',
   productionSourceMap: false,
   transpileDependencies: true,
   lintOnSave: false,
