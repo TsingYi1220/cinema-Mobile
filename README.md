@@ -6,7 +6,7 @@
 
 > 开发环境 Window10 19044.2006 Chrome 106.0.5249.103 nodejs 16.16.0
 
-> 此项目大大小小共 7 个页面，涉及电影列表、电影详情页、影院列表、城市列表、城市影院选择、{注册、登录}、等等。
+> 此项目大大小小共 7 个页面，涉及电影列表、电影详情页、影院列表、城市列表、城市影院选择、注册/登录、个人中心等等。
 
 > [项目上线地址](http://139.9.65.25/) 请用（请用 chrome 手机模式预览）
 
@@ -28,4 +28,4 @@ npm run build
 
 ## 技术栈
 
-vue2 + vuex + vue-router + ES6 + fetch/axios + scss + flex + vant + swiper + better-scroll
+vue2 + vuex + vue-router + ES6 + fetch/axios + scss + flex + vant + element-ui + swiper + better-scroll
