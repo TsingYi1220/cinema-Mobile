@@ -8,24 +8,26 @@
       @load="onLoad"
       :immediate-check="false"
     >
-      <van-cell v-for="data in datalist" :key="data.filmId" @click="handleChangePage(data.filmId)">
-        <div href="#" class="nowPlayingFilm">
-          <div>
-            <img :src="data.poster" />
-          </div>
-          <div class="nowPlayingFilm-info">
-            <div class="nowPlayingFilm-name">
-              <span class="name">{{data.name}}</span>
-              <span class="item">{{data.item.name}}</span>
+      <van-cell v-for="data in datalist" :key="data.filmId">
+        <div class="nowPlayingFilm">
+          <div class="nowPlayingFilm-detail" @click="handleChangePage(data.filmId)">
+            <div>
+              <img :src="data.poster" />
             </div>
-            <div class="content">
-              <span class="label">观众评分：</span>
-              <span class="grade">{{data.grade}}</span>
+            <div class="nowPlayingFilm-info">
+              <div class="nowPlayingFilm-name">
+                <span class="name">{{data.name}}</span>
+                <span class="item">{{data.item.name}}</span>
+              </div>
+              <div class="content">
+                <span class="label">观众评分：</span>
+                <span class="grade">{{data.grade}}</span>
+              </div>
+              <div class="actors">主演：{{data.actors|actorsFilter}}</div>
+              <div>{{data.nation}}|{{data.runtime}}分钟</div>
             </div>
-            <div class="actors">主演：{{data.actors|actorsFilter}}</div>
-            <div>{{data.nation}}|{{data.runtime}}分钟</div>
           </div>
-          <div class="buy">购票</div>
+          <div class="buy" @click="handleBuy(data.filmId)">购票</div>
         </div>
       </van-cell>
     </van-list>
@@ -86,6 +88,16 @@ export default {
           myid: id
         }
       })
+    },
+    handleBuy(id) {
+      this.$router
+        .push({
+          path: '/order',
+          query: {
+            id: id
+          }
+        })
+        .catch(() => {})
     }
   },
   mounted() {
@@ -115,57 +127,64 @@ export default {
       display: flex;
       width: 3.45rem;
       height: 0.94rem;
-      img {
-        float: left;
-        width: 0.66rem;
-      }
-      .nowPlayingFilm-info {
-        float: left;
-        width: 2.09rem;
-        height: 0.9rem;
-        padding: 0 0.1rem;
-        .nowPlayingFilm-name {
+      .nowPlayingFilm-detail {
+        width: 2.95rem;
+        height: 0.94rem;
+        img {
+          float: left;
+          width: 0.66rem;
+        }
+        .nowPlayingFilm-info {
           float: left;
           width: 2.09rem;
-          height: 0.22rem;
-          span {
-            display: inline-block;
-            vertical-align: middle;
+          height: 0.9rem;
+          padding: 0 0.1rem;
+          .nowPlayingFilm-name {
+            float: left;
+            width: 2.09rem;
+            height: 0.22rem;
+            span {
+              display: inline-block;
+              vertical-align: middle;
+            }
+            .name {
+              max-width: calc(100% - 0.25rem);
+              overflow: hidden;
+              text-overflow: ellipsis;
+              margin-right: 0.05rem;
+              height: 0.18rem;
+              line-height: 0.18rem;
+              white-space: nowrap;
+            }
+            .item {
+              font-size: 0.09rem;
+              color: #fff;
+              background-color: #d2d6dc;
+              height: 0.14rem;
+              line-height: 0.14rem;
+              padding: 0 0.018rem;
+              border-radius: 0.02rem;
+            }
           }
-          .name {
+          .grade {
+            color: #ffb232;
+            font-size: 14px;
+          }
+          .actors {
             max-width: calc(100% - 0.25rem);
             overflow: hidden;
             text-overflow: ellipsis;
             margin-right: 0.05rem;
-            height: 0.18rem;
-            line-height: 0.18rem;
+            height: 0.22rem;
             white-space: nowrap;
           }
-          .item {
-            font-size: 0.09rem;
-            color: #fff;
-            background-color: #d2d6dc;
-            height: 0.14rem;
-            line-height: 0.14rem;
-            padding: 0 0.018rem;
-            border-radius: 0.02rem;
-          }
-        }
-        .grade {
-          color: #ffb232;
-          font-size: 14px;
-        }
-        .actors {
-          max-width: calc(100% - 0.25rem);
-          overflow: hidden;
-          text-overflow: ellipsis;
-          margin-right: 0.05rem;
-          height: 0.22rem;
-          white-space: nowrap;
         }
       }
 
       .buy {
+        position: relative;
+        top: 50%;
+        margin-top: -0.125rem;
         line-height: 0.25rem;
         height: 0.25rem;
         width: 0.5rem;
@@ -173,7 +192,6 @@ export default {
         font-size: 0.13rem;
         text-align: center;
         border-radius: 0.02rem;
-        position: relative;
       }
       .buy::after {
         content: "";

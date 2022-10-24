@@ -21,6 +21,19 @@ Vue.use(Vant)
 export default {
   components: {
     tabbar
+  },
+  mounted() {
+    // 窗口尺寸改变
+    window.addEventListener('resize', () => this.Refresh())
+  },
+  methods: {
+    Refresh() {
+      this.$router.go(0)
+    }
+  },
+  destroyed() {
+    // 销毁
+    window.onresize = null
   }
 }
 </script>
