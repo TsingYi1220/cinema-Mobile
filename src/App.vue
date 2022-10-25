@@ -19,21 +19,25 @@ import tabbar from './components/Tabbar.vue'
 Vue.use(Vant)
 
 export default {
+  data() {
+    return {
+      screenWidth: window.innerWidth
+    }
+  },
   components: {
     tabbar
   },
   mounted() {
-    // 窗口尺寸改变
-    window.addEventListener('resize', () => this.Refresh())
+    window.addEventListener('resize', () => {
+      if (this.screenWidth !== window.innerWidth) {
+        this.Refresh()
+      }
+    })
   },
   methods: {
     Refresh() {
       this.$router.go(0)
     }
-  },
-  destroyed() {
-    // 销毁
-    window.onresize = null
   }
 }
 </script>
