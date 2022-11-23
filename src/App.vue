@@ -15,7 +15,9 @@ import Vant from 'vant'
 import 'vant/lib/index.css'
 
 import tabbar from './components/Tabbar.vue'
+import SlideVerify from 'vue-monoplasty-slide-verify'
 
+Vue.use(SlideVerify)
 Vue.use(Vant)
 
 export default {

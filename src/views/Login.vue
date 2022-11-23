@@ -1,5 +1,20 @@
 <template>
   <div class="login">
+    <div v-if="isShow" class="mask">
+      <div class="slideContainer">
+        <slide-verify
+          :l="42"
+          :r="10"
+          :w="310"
+          :h="155"
+          slider-text="向右滑动验证"
+          @success="onSuccess"
+          @fail="onFail"
+          @refresh="onRefresh"
+        ></slide-verify>
+        <div style="margin-top:15px">{{msg}}</div>
+      </div>
+    </div>
     <div class="title">登录/注册</div>
     <el-form
       :model="param"
@@ -40,6 +55,8 @@
 export default {
   data() {
     return {
+      isShow: false,
+      msg: '',
       height: '0px',
       param: {
         username: 'TsingYi',
@@ -65,15 +82,31 @@ export default {
   },
   methods: {
     submitForm(login) {
-      this.$refs[login].validate((valid) => {
-        if (valid) {
-          this.$message.success('登录成功')
-          localStorage.setItem('username', this.param.username)
-          this.$router.push(this.$route.query.redirect)
-        } else {
-          return false
-        }
-      })
+      this.isShow = true
+      this.temp = this.$refs[login]
+    },
+    onSuccess(times) {
+      this.msg = '验证通过耗时' + (times / 1000).toFixed(1) + '秒'
+      setTimeout(() => {
+        this.temp.validate((valid) => {
+          if (valid) {
+            this.$message.success('登录成功')
+            localStorage.setItem('username', this.param.username)
+            this.$router.push(this.$route.query.redirect)
+          } else {
+            return false
+          }
+        })
+      }, 1500)
+    },
+    onFail() {
+      this.msg = '验证失败'
+    },
+    onRefresh() {
+      this.msg = ''
+    },
+    onFulfilled() {
+      this.msg = '重新验证'
     }
   }
 }
@@ -85,6 +118,24 @@ export default {
   width: 100%;
   height: 100%;
   background-color: #f4f4f4;
+  .mask {
+    position: fixed;
+    left: 0%;
+    top: 0%;
+    height: 100%;
+    width: 100%;
+    z-index: 100;
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, 0.5);
+    .slideContainer {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      background-color: rgb(255, 255, 255);
+      transform: translate(-50%, -50%);
+      padding: 15px;
+    }
+  }
   .title {
     width: 100%;
     line-height: 0.5rem;
