@@ -68,30 +68,15 @@ export default {
   methods: {
     submitForm(login) {
       this.isShow = true
-      this.temp = this.$refs[login]
-    },
-    onSuccess(times) {
-      this.msg = '验证通过耗时' + (times / 1000).toFixed(1) + '秒'
-      setTimeout(() => {
-        this.temp.validate((valid) => {
-          if (valid) {
-            this.$message.success('登录成功')
-            localStorage.setItem('username', this.param.username)
-            this.$router.push(this.$route.query.redirect)
-          } else {
-            return false
-          }
-        })
-      }, 1500)
-    },
-    onFail() {
-      this.msg = '验证失败'
-    },
-    onRefresh() {
-      this.msg = ''
-    },
-    onFulfilled() {
-      this.msg = '重新验证'
+      this.$refs[login].validate((valid) => {
+        if (valid) {
+          this.$message.success('登录成功')
+          localStorage.setItem('username', this.param.username)
+          this.$router.push(this.$route.query.redirect)
+        } else {
+          return false
+        }
+      })
     }
   }
 }
